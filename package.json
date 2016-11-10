@@ -1,0 +1,22 @@
+{
+  "name": "node-inspect-helpers",
+  "version": "0.0.1",
+  "description": "Interact with a Node process through V8 Inspector.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshgav/node-inspect-helpers.git"
+  },
+  "author": "Josh Gavant",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joshgav/node-inspect-helpers/issues"
+  },
+  "homepage": "https://github.com/joshgav/node-inspect-helpers#readme",
+  "dependencies": {
+    "chrome-remote-interface": "^0.16.1"
+  }
+}
