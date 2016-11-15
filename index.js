@@ -1,9 +1,5 @@
 let cdp = require('chrome-remote-interface');
-
-var options_default = {
-  host: "127.0.0.1",
-  port: "9229"
-}
+let defaults = require('./lib/defaults.json');
 
 /**
  * Profile CPU for a period and record to file
@@ -17,15 +13,18 @@ var options_default = {
 function getCPUProfile(ms, filePath, options) {
 
   options = options || {};
-  options.host = options.host || options_default.host;
-  options.port = options.port || options_default.port;
+  options.host = options.host || defaults.host;
+  options.port = options.port || defaults.port;
+  options.remote = options.remote || defaults.remote;
+
+  if (!filePath.endsWith('.cpuprofile') { filePath = filePath + '.cpuprofile' };
 
   // if/when merged upstream, change to `cdp.connect(...)`
-  cdp(options, (chrome) => {
-    chrome.Profiler.enable(() => { console.log('CPU Profiler enabled') });
-    chrome.Profiler.start(() => { console.log('CPU Profiler started') });
+  cdp(options, (cdpproxy) => {
+    cdpproxy.Profiler.enable().then(() => { console.log('CPU Profiler enabled') });
+    cdpproxy.Profiler.start().then(() => { console.log('CPU Profiler started') });
     setTimeout(() => { 
-      chrome.Profiler.stop((err, res) => {
+      cdpproxy.Profiler.stop().then((err, res) => {
         if (err) { console.error(err); process.exit(1); }
         console.log('CPU Profiler stopped, profile written to ' + filePath);
         fs.writeFileSync(filePath, JSON.stringify(res.profile));

@@ -1,5 +1,5 @@
 {
-  "name": "node-inspect-helpers",
+  "name": "node-inspect-helper",
   "version": "0.0.1",
   "description": "Interact with a Node process through V8 Inspector.",
   "main": "index.js",
