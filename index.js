@@ -17,18 +17,17 @@ function getCPUProfile(ms, filePath, options) {
   options.port = options.port || defaults.port;
   options.remote = options.remote || defaults.remote;
 
-  if (!filePath.endsWith('.cpuprofile') { filePath = filePath + '.cpuprofile' };
+  if (!filePath.endsWith('.cpuprofile')) { filePath = filePath + '.cpuprofile' };
 
   // if/when merged upstream, change to `cdp.connect(...)`
   cdp(options, (cdpproxy) => {
     cdpproxy.Profiler.enable().then(() => { console.log('CPU Profiler enabled') });
     cdpproxy.Profiler.start().then(() => { console.log('CPU Profiler started') });
     setTimeout(() => { 
-      cdpproxy.Profiler.stop().then((err, res) => {
-        if (err) { console.error(err); process.exit(1); }
+      cdpproxy.Profiler.stop().then((result) => {
         console.log('CPU Profiler stopped, profile written to ' + filePath);
-        fs.writeFileSync(filePath, JSON.stringify(res.profile));
-      });
+        fs.writeFileSync(filePath, JSON.stringify(result.profile));
+      }).catch((err) => { console.error(err); process.exit(1); });
     }, ms);
   });
 }
